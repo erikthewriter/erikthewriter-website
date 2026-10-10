@@ -1,0 +1,6 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {getCollection} from 'astro:content';
+const posts=(await getCollection('journal',({data})=>data.published)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
+---
+<BaseLayout title="Journal"><section class="section"><div class="wrap"><div class="eyebrow">The writer's journal</div><h1>Notes from the desk.</h1><p class="lead">Writing, publishing, inspiration, and the occasional song worth sharing.</p><div class="grid">{posts.map(post=><article class="card">{post.data.image&&<img src={post.data.image} alt="" loading="lazy"/>}<span class="tag">{post.data.category} · {post.data.date.toLocaleDateString('en-US',{dateStyle:'medium'})}</span><h3>{post.data.title}</h3><p>{post.data.description}</p><a href={`/journal/${post.id}/`}>Read the entry →</a></article>)}</div>{!posts.length&&<p class="empty">No published entries yet. Add your first post through Pages CMS.</p>}</div></section></BaseLayout>

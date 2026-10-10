@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {getCollection,render} from 'astro:content';
+export async function getStaticPaths(){return (await getCollection('journal',({data})=>data.published)).map(post=>({params:{id:post.id},props:{post}}));}
+const {post}=Astro.props;
+const {Content}=await render(post);
+---
+<BaseLayout title={post.data.title} description={post.data.description}><section class="section"><div class="wrap prose"><a href="/journal/" style="color:var(--copper)">← All journal entries</a><p class="eyebrow">{post.data.category} · {post.data.date.toLocaleDateString('en-US',{dateStyle:'long'})}</p><h1>{post.data.title}</h1><p class="lead">{post.data.description}</p>{post.data.image&&<img style="width:100%;border-radius:6px" src={post.data.image} alt=""/>}<article><Content/></article>{post.data.audioUrl&&<div class="card"><h3>Listen</h3><audio controls preload="none" style="width:100%" src={post.data.audioUrl}>Your browser does not support audio playback.</audio></div>}</div></section></BaseLayout>

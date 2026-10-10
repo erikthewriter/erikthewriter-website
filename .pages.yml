@@ -1,0 +1,62 @@
+media:
+  input: public/uploads
+  output: /uploads
+  rename: safe
+content:
+  - name: journal
+    label: Journal posts
+    type: collection
+    path: src/content/journal
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, date, category, published]
+      primary: title
+      sort: date
+      order: desc
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: description, label: Short description, type: text }
+      - name: category
+        label: Category
+        type: select
+        options:
+          values: [Writing, Behind the Books, Announcements, Music, Other]
+      - { name: image, label: Featured image, type: image }
+      - { name: published, label: Published, type: boolean, default: false }
+      - { name: audioUrl, label: Audio URL (optional), type: string, description: Direct URL to an MP3/audio file for the player. For streaming services, include a normal link in the article instead. }
+      - { name: body, label: Article, type: rich-text }
+  - name: products
+    label: Shop products
+    type: collection
+    path: src/content/products
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    fields:
+      - { name: title, label: Product name, type: string, required: true }
+      - { name: description, label: Product description, type: text }
+      - { name: category, label: Category, type: string }
+      - { name: image, label: Product image, type: image }
+      - { name: amazonUrl, label: Amazon URL, type: string }
+      - { name: payhipUrl, label: Payhip URL, type: string }
+      - { name: otherLabel, label: Other seller name, type: string }
+      - { name: otherUrl, label: Other seller URL, type: string }
+      - { name: published, label: Show on website, type: boolean, default: false }
+  - name: media
+    label: Media entries
+    type: collection
+    path: src/content/media
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: description, label: Description, type: text }
+      - name: kind
+        label: Media type
+        type: select
+        options:
+          values: [Clip, Music, Video]
+      - { name: image, label: Thumbnail, type: image }
+      - { name: url, label: Watch or listen URL, type: string }
+      - { name: published, label: Show on website, type: boolean, default: false }
