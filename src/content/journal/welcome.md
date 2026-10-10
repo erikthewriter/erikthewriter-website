@@ -1,9 +1,9 @@
 ---
-title: "Welcome to the New Website"
+title: Welcome to the New Website
 date: 2026-10-10
-description: "A short example showing how journal posts appear on the site."
+description: A short example showing how journal posts appear on the site.
 category: Announcements
-published: false
+published: true
 ---
 This is a **sample draft**. Replace it with your own words, or delete it in Pages CMS.
 
