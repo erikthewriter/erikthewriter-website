@@ -141,3 +141,94 @@ content:
       - { name: featured, label: Feature this book, type: boolean, default: false }
       - { name: published, label: Show on website, type: boolean, default: false }
       - { name: body, label: Full book description / excerpt, type: rich-text }
+
+  - name: weeklyStreams
+    label: Weekly stream schedule
+    type: collection
+    path: src/content/weekly-streams
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, day, time, status, published]
+      primary: title
+    fields:
+      - { name: title, label: Stream title, type: string, required: true }
+      - name: day
+        label: Day of the week
+        type: select
+        options:
+          values: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
+      - { name: time, label: Start time (24-hour HH:MM), type: string, required: true, description: 'For 8 PM enter 20:00. Times are displayed in your chosen timezone.' }
+      - { name: endTime, label: End time (optional HH:MM), type: string }
+      - name: timezone
+        label: Time zone
+        type: select
+        options:
+          values: [America/Chicago, America/New_York, America/Denver, America/Los_Angeles]
+        default: America/Chicago
+      - { name: game, label: Featured game or activity, type: string }
+      - { name: description, label: Short description, type: text }
+      - name: status
+        label: Schedule status
+        type: select
+        options:
+          values: [Scheduled, Paused, Cancelled]
+      - { name: displayOrder, label: Display order (optional), type: number }
+      - { name: published, label: Show on website, type: boolean, default: false }
+      - { name: discordPublish, label: Enable Discord synchronization later, type: boolean, default: false, description: 'Saved as a preference ONLY. Does not currently send Discord messages.' }
+      - name: discordDestinations
+        label: Planned Discord destinations
+        type: select
+        options:
+          multiple: true
+          values: ['The Haunted Library — Announcements', 'Magnificent Bastages — Events']
+        description: 'These are destination labels. Channels and credentials will be configured separately.'
+      - name: discordUpdateMode
+        label: Discord update behavior (for future integration)
+        type: select
+        options:
+          values: ['Quiet update', 'Update and notify', 'New announcement']
+      - { name: body, label: More details, type: rich-text }
+  - name: streamEvents
+    label: Upcoming stream events
+    type: collection
+    path: src/content/stream-events
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, date, time, status, published]
+      primary: title
+      sort: date
+      order: asc
+    fields:
+      - { name: title, label: Event title, type: string, required: true }
+      - { name: date, label: Event date (YYYY-MM-DD), type: string, required: true, description: 'Example 2026-10-31. Keep as text to avoid date shifting across time zones.' }
+      - { name: time, label: Start time (24-hour HH:MM), type: string, required: true, description: 'Example 20:00 for 8 PM.' }
+      - name: timezone
+        label: Time zone
+        type: select
+        options:
+          values: [America/Chicago, America/New_York, America/Denver, America/Los_Angeles]
+        default: America/Chicago
+      - { name: game, label: Featured game or activity, type: string }
+      - { name: description, label: Summary, type: text }
+      - { name: image, label: Event image, type: image }
+      - name: status
+        label: Event status
+        type: select
+        options:
+          values: [Scheduled, Postponed, Cancelled, Completed]
+      - { name: published, label: Show on website, type: boolean, default: false }
+      - { name: discordPublish, label: Enable Discord synchronization later, type: boolean, default: false, description: 'Saved as a preference ONLY. Does not currently send Discord messages.' }
+      - name: discordDestinations
+        label: Planned Discord destinations
+        type: select
+        options:
+          multiple: true
+          values: ['The Haunted Library — Announcements', 'Magnificent Bastages — Events']
+      - name: discordUpdateMode
+        label: Discord update behavior (for future integration)
+        type: select
+        options:
+          values: ['Quiet update', 'Update and notify', 'New announcement']
+      - { name: body, label: Event details, type: rich-text }

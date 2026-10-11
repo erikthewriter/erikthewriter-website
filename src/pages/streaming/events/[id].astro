@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { niceTime, niceDate, zoneLabels } from '../../../lib/streamSchedule';
+export async function getStaticPaths(){const events=await getCollection('streamEvents',({data})=>data.published);return events.map(event=>({params:{id:event.id},props:{event}}));}
+const {event}=Astro.props;
+const {Content}=await render(event);
+---
+<BaseLayout title={event.data.title}><section class="section"><div class="wrap prose"><div class="eyebrow">Streaming event</div><h1>{event.data.title}</h1>{event.data.image&&<img class="event-cover" src={event.data.image} alt=""/>}<p class="lead">{niceDate(event.data.date)} · {niceTime(event.data.time)} {zoneLabels[event.data.timezone]||event.data.timezone}</p>{event.data.status!=='Scheduled'&&<p class="status">{event.data.status}</p>}{event.data.game&&<p>Featured: {event.data.game}</p>}<p>{event.data.description}</p><div class="prose"><Content/></div><p><a href="/streaming/">← Back to streaming schedule</a></p></div></section></BaseLayout>
+<style>.event-cover{width:100%;max-height:380px;object-fit:cover;border-radius:6px}.status{color:var(--copper);font-weight:bold}</style>
