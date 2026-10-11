@@ -12,5 +12,33 @@
       "timezone": "America/Chicago",
       "title": "pecial Community Horror Night."
     }
+  },
+  "src/content/stream-events/testing-event.md::haunted-library": {
+    "hash": "fc975d734c8ddfd5984adc57e641352094e7873bea977dc5dcd85811e48da761",
+    "message_id": "1558708115447218209",
+    "snapshot": {
+      "date": "2026-10-20",
+      "day": "",
+      "description": "",
+      "game": "Game Testing",
+      "status": "Scheduled",
+      "time": "7:30 PM",
+      "timezone": "America/Chicago",
+      "title": "Testing Event"
+    }
+  },
+  "src/content/stream-events/testing-event.md::magnificent-bastages": {
+    "hash": "fc975d734c8ddfd5984adc57e641352094e7873bea977dc5dcd85811e48da761",
+    "message_id": "1558708114629337131",
+    "snapshot": {
+      "date": "2026-10-20",
+      "day": "",
+      "description": "",
+      "game": "Game Testing",
+      "status": "Scheduled",
+      "time": "7:30 PM",
+      "timezone": "America/Chicago",
+      "title": "Testing Event"
+    }
   }
 }
