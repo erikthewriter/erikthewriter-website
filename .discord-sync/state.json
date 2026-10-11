@@ -1,6 +1,6 @@
 {
   "src/content/stream-events/abno-with-lisa.md::haunted-library": {
-    "hash": "dfe0f2141a0639f3a09e76bd7689825e800b74f66788f5e271a9bb72aebbe995",
+    "hash": "dc26a3e56ced068c2e57a7447f4e66f4cb45e088b438d4241c118e0d6817a4a9",
     "message_id": "1558936557942087874",
     "snapshot": {
       "date": "2027-10-31",
@@ -8,13 +8,13 @@
       "description": "2 manning Abno with Lisa",
       "game": "Abnormality",
       "status": "Scheduled",
-      "time": "8:00 AM",
+      "time": "12:00 PM",
       "timezone": "America/Chicago",
       "title": "Abno With Lisa"
     }
   },
   "src/content/stream-events/abno-with-lisa.md::magnificent-bastages": {
-    "hash": "dfe0f2141a0639f3a09e76bd7689825e800b74f66788f5e271a9bb72aebbe995",
+    "hash": "dc26a3e56ced068c2e57a7447f4e66f4cb45e088b438d4241c118e0d6817a4a9",
     "message_id": "1558936559443775579",
     "snapshot": {
       "date": "2027-10-31",
@@ -22,7 +22,7 @@
       "description": "2 manning Abno with Lisa",
       "game": "Abnormality",
       "status": "Scheduled",
-      "time": "8:00 AM",
+      "time": "12:00 PM",
       "timezone": "America/Chicago",
       "title": "Abno With Lisa"
     }
