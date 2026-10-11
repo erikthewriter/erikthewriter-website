@@ -1,12 +1,12 @@
 {
   "src/content/stream-events/pecial-community-horror-night.md::haunted-library": {
-    "hash": "8932ca4b727ecc22b4457349535b92a744b07906a8ce03f92b8d40438f451244",
+    "hash": "e4bee8803d2271115c82708db9fc8b6aa1c7a22ae2ddc1983e7e3fe35276578b",
     "message_id": "1558689830471208993",
     "snapshot": {
       "date": "2026-10-31",
       "day": "",
-      "description": "",
-      "game": "Horror",
+      "description": "Community Night with Nurse",
+      "game": "Severance",
       "status": "Scheduled",
       "time": "8:00 PM",
       "timezone": "America/Chicago",
