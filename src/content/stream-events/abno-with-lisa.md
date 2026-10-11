@@ -1,7 +1,7 @@
 ---
 title: Abno With Lisa
 date: 2027-10-31
-time: 8:00
+time: 12:00
 timezone: America/Chicago
 game: Abnormality
 description: 2 manning Abno with Lisa
@@ -11,5 +11,5 @@ discordPublish: true
 discordDestinations:
   - The Haunted Library — Announcements
   - Magnificent Bastages — Events
-discordUpdateMode: Quiet update
+discordUpdateMode: Update and notify
 ---
