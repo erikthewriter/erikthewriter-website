@@ -38,9 +38,31 @@ export async function onRequestPost({request,env}) {
     const clean=s=>String(s||'').replaceAll('@','＠').replaceAll('`','\u02cb');
     const desc=[`**Game:** ${clean(gameName)} (${appid})`,`**From:** ${clean(contactHandle)} (${contactPlatform})`,`**Type:** ${requestType}`,`**Timing:** ${timing}`,preferredDate?`**Requested date:** ${preferredDate}`:null,message?`**Message:** ${clean(message)}`:null,`**ID:** ${id}`].filter(Boolean).join('\n');
     try {
-      const post=await fetch(env.DISCORD_COLLAB_WEBHOOK,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({content:'📨 **New Collaboration Request**\n'+desc,allowed_mentions:{parse:[]}}),signal:AbortSignal.timeout(8000)});
-      if(post.ok)await env.COLLAB_DB.prepare("UPDATE collab_requests SET notified_at=datetime('now') WHERE id=?").bind(id).run();
-      else console.error('Discord notification failed',post.status,id);
+      let post;
+      let botMessage = null;
+      if (env.DISCORD_COLLAB_BOT_TOKEN && env.COLLAB_DISCORD_CHANNEL_ID) {
+        const buttonRow={type:1,components:[
+          {type:2,style:3,label:'Accept',custom_id:`collab:accept:${id}`},
+          {type:2,style:4,label:'Decline',custom_id:`collab:decline:${id}`},
+          {type:2,style:1,label:'Schedule',custom_id:`collab:schedule:${id}`},
+          {type:2,style:2,label:'Reopen',custom_id:`collab:reopen:${id}`}
+        ]};
+        post=await fetch(`https://discord.com/api/v10/channels/${encodeURIComponent(env.COLLAB_DISCORD_CHANNEL_ID)}/messages`,{
+          method:'POST',headers:{'content-type':'application/json','authorization':'Bot '+env.DISCORD_COLLAB_BOT_TOKEN},
+          body:JSON.stringify({content:('📨 **New Collaboration Request**\n'+desc+'\n**Status:** Pending').slice(0,1950),components:[buttonRow],allowed_mentions:{parse:[]}}),
+          signal:AbortSignal.timeout(8000)
+        });
+        if(post.ok)botMessage=await post.json();
+        else {
+          console.error('Bot message failed; using existing webhook',post.status,id);
+          post=await fetch(env.DISCORD_COLLAB_WEBHOOK,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({content:'📨 **New Collaboration Request**\n'+desc,allowed_mentions:{parse:[]}}),signal:AbortSignal.timeout(8000)});
+        }
+      } else {
+        post=await fetch(env.DISCORD_COLLAB_WEBHOOK,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({content:'📨 **New Collaboration Request**\n'+desc,allowed_mentions:{parse:[]}}),signal:AbortSignal.timeout(8000)});
+      }
+      if(post.ok){
+        await env.COLLAB_DB.prepare("UPDATE collab_requests SET notified_at=datetime('now'), discord_message_id=? WHERE id=?").bind(botMessage?.id||null,id).run();
+      } else console.error('Discord notification failed',post.status,id);
     }catch(error){console.error('Discord notification error',id,String(error));}
     return response({ok:true});
   }catch(error){console.error('Collab DB error',String(error));return response({error:'Could not save the request. Please try again.'},503);}
