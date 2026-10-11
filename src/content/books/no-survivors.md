@@ -12,6 +12,12 @@ editions:
     availability: Available
     retailers:
       - name: Amazon
+  - format: Paperback Signed
+    price: 24.99
+    availability: Available
+    retailers:
+      - name: Payhip
+        url: https://payhip.com/b/tWfKF
 featured: true
 published: true
 ---
