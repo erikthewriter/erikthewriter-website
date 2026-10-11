@@ -56,9 +56,9 @@ content:
         label: Media type
         type: select
         options:
-          values: [Clip, Music, Video]
+          values: [Clip, VOD, Music, Video]
       - { name: image, label: Thumbnail, type: image }
-      - { name: url, label: Watch or listen URL, type: string }
+      - { name: url, label: Twitch Clip, VOD, or external URL, type: string }
       - { name: published, label: Show on website, type: boolean, default: false }
   - name: series
     label: Book series

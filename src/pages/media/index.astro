@@ -1,6 +1,105 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import {getCollection} from 'astro:content';
-const items=await getCollection('media',({data})=>data.published);
+import { getCollection } from 'astro:content';
+import { parseTwitchMedia } from '../../lib/twitchMedia';
+
+const items = (await getCollection('media', ({data}) => data.published)).sort((a,b) => a.data.title.localeCompare(b.data.title));
+const prepared = items.map(item => ({ item, twitch: parseTwitchMedia(item.data.url) }));
 ---
-<BaseLayout title="Media"><section class="section"><div class="wrap"><div class="eyebrow">The media library</div><h1>Watch. Listen. Explore.</h1><p class="lead">Stream clips, songs, and videos gathered in one place.</p><div class="grid">{items.map(item=><article class="card">{item.data.image&&<img src={item.data.image} alt="" loading="lazy"/>}<span class="tag">{item.data.kind}</span><h3>{item.data.title}</h3><p>{item.data.description}</p>{item.data.url&&<a href={item.data.url} target="_blank" rel="noopener noreferrer">{item.data.kind==='Music'?'Listen':'Watch'} ↗</a>}</article>)}</div>{!items.length&&<p class="empty">Your media collection will appear here as soon as you add entries in the editor.</p>}</div></section></BaseLayout>
+<BaseLayout title="Media">
+  <section class="section">
+    <div class="wrap">
+      <div class="eyebrow">The media library</div>
+      <h1>Watch. Listen. Explore.</h1>
+      <p class="lead">Stream highlights, full broadcasts, songs, and videos — all in one place.</p>
+      {items.length > 0 && <div class="media-toolbar" role="group" aria-label="Filter media">
+        <button type="button" class="filter active" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="filter" data-filter="clip" aria-pressed="false">Clips</button>
+        <button type="button" class="filter" data-filter="vod" aria-pressed="false">VODs</button>
+        <button type="button" class="filter" data-filter="music" aria-pressed="false">Music</button>
+        <button type="button" class="filter" data-filter="video" aria-pressed="false">Other Videos</button>
+      </div>}
+      <div class="media-grid">
+        {prepared.map(({item,twitch}) => {
+          const category = twitch?.type || (item.data.kind === 'VOD' ? 'vod' : item.data.kind.toLowerCase());
+          const label = twitch?.type === 'vod' || item.data.kind === 'VOD' ? 'Twitch VOD' : twitch?.type === 'clip' ? 'Twitch Clip' : item.data.kind;
+          return <article class="card media-card" data-category={category}>
+            {twitch ? <div class="player-frame" data-embed-type={twitch.type} data-embed-id={twitch.id}>
+              <span class="video-placeholder">Loading Twitch player…</span>
+            </div> : item.data.image ? <img class="media-image" src={item.data.image} alt="" loading="lazy"/> : null}
+            <div class="media-details"><span class="tag">{label}</span><h3>{item.data.title}</h3>{item.data.description && <p>{item.data.description}</p>}
+            {item.data.url && <a href={item.data.url} target="_blank" rel="noopener noreferrer">{twitch ? 'Watch on Twitch instead' : item.data.kind === 'Music' ? 'Listen' : 'Watch'} ↗</a>}
+            </div>
+          </article>;
+        })}
+      </div>
+      {items.length === 0 && <p class="empty">Your media collection will appear here as soon as you add entries in Pages CMS.</p>}
+      {items.length > 0 && <p id="no-media-match" class="empty" hidden>No media entries match this filter.</p>}
+    </div>
+  </section>
+</BaseLayout>
+<style>
+.media-toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:32px 0 24px}.filter{font:inherit;font-size:.88rem;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:9px 15px;cursor:pointer}.filter:hover,.filter.active{border-color:var(--copper);color:var(--text);background:#38291f}.media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.media-card{padding:0;overflow:hidden}.media-card:hover{border-color:#8a5a39}.media-details{padding:22px 25px 25px}.media-details h3{margin:9px 0}.media-details p{margin:0 0 14px}.media-details a{color:var(--copper)}.player-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 300px;
+  background: #0d0e10;
+  overflow: hidden;
+}
+
+.video-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+  color: #d0a987;
+  font-weight: 600;
+  letter-spacing: .08em;
+}
+
+.player-frame :global(iframe) {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}.media-image{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:0}.media-card[hidden],#no-media-match[hidden]{display:none!important}@media(max-width:830px){.media-grid{grid-template-columns:1fr}}
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('.player-frame[data-embed-type]').forEach(frame => {
+    const type = frame.dataset.embedType;
+    const id = frame.dataset.embedId || '';
+    const parent = window.location.hostname;
+    if (!parent || !/^[a-z0-9_-]+$/i.test(id)) return;
+    const params = new URLSearchParams({parent, autoplay:'false'});
+    let src: string;
+    if (type === 'clip') {
+      params.set('clip', id);
+      src = 'https://clips.twitch.tv/embed?' + params.toString();
+    } else if (type === 'vod' && /^\d+$/.test(id)) {
+      params.set('video', 'v' + id);
+      src = 'https://player.twitch.tv/?' + params.toString();
+    } else return;
+    const iframe = document.createElement('iframe');
+    iframe.src = src;
+    iframe.title = 'Twitch ' + (type === 'clip' ? 'clip' : 'VOD') + ' player';
+    iframe.allow = 'fullscreen; autoplay; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    frame.replaceChildren(iframe);
+  });
+  const filters = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+  const empty = document.getElementById('no-media-match');
+  filters.forEach(button => button.addEventListener('click', () => {
+    const selected = button.dataset.filter;
+    filters.forEach(b => {const active=b===button;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
+    let shown = 0;
+    cards.forEach(card => {const visible = selected==='all' || card.dataset.category===selected;card.hidden=!visible;if(visible)shown++;});
+    if(empty)empty.hidden=shown>0;
+  }));
+</script>
