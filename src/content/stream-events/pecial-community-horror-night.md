@@ -10,7 +10,7 @@ published: true
 discordPublish: true
 discordDestinations:
   - The Haunted Library — Announcements
-discordUpdateMode: Update and notify
+discordUpdateMode: New announcement
 ---
 > Judge, jury, executioner!
 
