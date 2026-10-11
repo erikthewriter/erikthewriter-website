@@ -1,6 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-const recent=(await getCollection('journal',({data})=>data.published)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf()).slice(0,3);
+const text = (await getCollection('siteText')).find(e => e.id === 'home')?.data;
+const t = {
+ heroEyebrow: text?.heroEyebrow ?? 'Fiction · Live Stories · Community', heroTitle: text?.heroTitle ?? 'Stories worth staying for.',
+ heroDescription: text?.heroDescription ?? 'Welcome to the home of Erik the Writer.',
+ writingCardTitle: text?.writingCardTitle ?? 'Worlds beyond the page.', writingCardDescription: text?.writingCardDescription ?? '',
+ streamingCardTitle: text?.streamingCardTitle ?? 'Pull up a chair.', streamingCardDescription: text?.streamingCardDescription ?? '',
+ featureTitle: text?.featureTitle ?? 'No Survivors', featureDescription: text?.featureDescription ?? '',
+ readingHeading: text?.readingHeading ?? 'Beyond my bookshelf', readingIntro: text?.readingIntro ?? '',
+ promotionsHeading: text?.promotionsHeading ?? 'Specials & Collaborations', journalHeading: text?.journalHeading ?? 'Recent entries'
+};
+const recent = (await getCollection('journal', ({data}) => data.published)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf()).slice(0,3);
+const readings = (await getCollection('reading', ({data}) => data.published)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||a.data.displayOrder-b.data.displayOrder||a.data.title.localeCompare(b.data.title)).slice(0,3);
+const today = new Date().toISOString().slice(0,10);
+const promotions = (await getCollection('promotions', ({data}) => data.active && (!data.startDate || data.startDate <= today) && (!data.endDate || data.endDate >= today))).sort((a,b)=>a.data.displayOrder-b.data.displayOrder||a.data.title.localeCompare(b.data.title)).slice(0,5);
 ---
-<BaseLayout title="Home"><section class="hero"><div class="wrap"><div class="eyebrow">Fiction · Live Stories · Community</div><h1>Stories worth<br/><span style="color:var(--copper)">staying for.</span></h1><p class="lead">Welcome to the home of Erik the Writer. Explore the fiction, step behind the words, or join the community when the stream goes live.</p><div class="actions"><a class="btn" href="/writing/">Explore the Writing →</a><a class="btn outline" href="/streaming/">Visit the Stream</a></div></div></section><section class="section"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">Two sides, one creator</div><h2>Find your way in.</h2></div></div><div class="grid two"><article class="card"><div class="eyebrow">01 / The Writing</div><h3>Worlds beyond the page.</h3><p>Discover the novels, ongoing series, writing journal, and the stories behind the stories.</p><a href="/writing/">Explore books and writing →</a></article><article class="card"><div class="eyebrow">02 / The Streaming</div><h3>Pull up a chair.</h3><p>Live gaming, ghost hunting, collaborations, and good company in The Haunted Library.</p><a href="/streaming/">Explore streaming →</a></article></div></div></section><section class="section alt"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">Featured fiction</div><h2>No Survivors</h2></div><a href="/shop/">Find editions →</a></div><div class="banner"><p><strong>Day of the End · Book One.</strong> A survival-horror story where the end of the world may only be the beginning. Explore the series and available editions.</p></div></div></section><section class="section"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">From the journal</div><h2>Recent entries</h2></div><a href="/journal/">All entries →</a></div>{recent.length?<div class="grid">{recent.map(post=><article class="card"><span class="tag">{post.data.category} · {post.data.date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span><h3>{post.data.title}</h3><p>{post.data.description}</p><a href={`/journal/${post.id}/`}>Read entry →</a></article>)}</div>:<p class="empty">Journal posts will appear here after you publish them through the editor.</p>}</div></section><section class="section alt"><div class="wrap"><div class="grid two"><article class="card"><div class="eyebrow">Watch & listen</div><h3>One media library.</h3><p>Streaming highlights, original songs, videos, and creative experiments together in one place.</p><a href="/media/">Explore media →</a></article><article class="card"><div class="eyebrow">Books & beyond</div><h3>A combined shop.</h3><p>Browse products here, then choose Amazon, Payhip, or another seller to complete your purchase.</p><a href="/shop/">Browse the shop →</a></article></div></div></section></BaseLayout>
+<BaseLayout title="Home">
+  <section class="hero"><div class="wrap">
+    <div class="eyebrow">{t.heroEyebrow}</div><h1>{t.heroTitle}</h1><p class="lead">{t.heroDescription}</p>
+    <div class="actions"><a class="btn" href="/writing/">Explore the Writing →</a><a class="btn outline" href="/streaming/">Visit the Stream</a></div>
+  </div></section>
+  {promotions.length > 0 && <section class="section alt" aria-labelledby="specials-heading"><div class="wrap">
+    <div class="section-heading"><div><div class="eyebrow">Limited-time opportunities</div><h2 id="specials-heading">{t.promotionsHeading}</h2></div></div>
+    <div class="launch-grid promos">{promotions.map(p=><article class="card launch-card">
+      {p.data.image && <img src={p.data.image} alt="" loading="lazy"/>}
+      <div class="inner"><span class="tag">{p.data.partner || 'Featured offer'}</span><h3>{p.data.title}</h3><p>{p.data.description}</p>
+      {p.data.url && <a href={p.data.url} target="_blank" rel="noopener noreferrer">{p.data.linkText} ↗</a>}</div>
+    </article>)}</div>
+  </div></section>}
+  <section class="section"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">Two sides, one creator</div><h2>Find your way in.</h2></div></div>
+    <div class="grid two"><article class="card"><div class="eyebrow">01 / The Writing</div><h3>{t.writingCardTitle}</h3><p>{t.writingCardDescription}</p><a href="/writing/">Explore books and writing →</a></article>
+    <article class="card"><div class="eyebrow">02 / The Streaming</div><h3>{t.streamingCardTitle}</h3><p>{t.streamingCardDescription}</p><a href="/streaming/">Explore streaming →</a></article></div>
+  </div></section>
+  <section class="section alt"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">Featured fiction</div><h2>{t.featureTitle}</h2></div><a href="/writing/">Explore my books →</a></div><div class="banner"><p>{t.featureDescription}</p></div></div></section>
+  {readings.length > 0 && <section class="section"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">Reading & recommendations</div><h2>{t.readingHeading}</h2><p>{t.readingIntro}</p></div><a href="/reading/">View the bookshelf →</a></div>
+    <div class="launch-grid">{readings.map(book=><article class="card reading-card">
+      {book.data.cover && <img src={book.data.cover} alt={`Cover of ${book.data.title}`} loading="lazy"/>}
+      <div><span class="tag">{book.data.status}</span><h3>{book.data.title}</h3><p class="book-author">by {book.data.author}</p><p>{book.data.description}</p><p>{book.data.myThoughts}</p>
+      {book.data.bookUrl && <a href={book.data.bookUrl} target="_blank" rel="noopener noreferrer">Find the book ↗</a>}</div>
+    </article>)}</div>
+  </div></section>}
+  <section class="section alt"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">From the journal</div><h2>{t.journalHeading}</h2></div><a href="/journal/">All entries →</a></div>
+    {recent.length ? <div class="grid">{recent.map(post=><article class="card"><span class="tag">{post.data.category} · {post.data.date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span><h3>{post.data.title}</h3><p>{post.data.description}</p><a href={`/journal/${post.id}/`}>Read entry →</a></article>)}</div> : <p class="empty">Journal posts will appear here after you publish them through the editor.</p>}
+  </div></section>
+  <section class="section"><div class="wrap"><div class="grid two"><article class="card"><div class="eyebrow">Watch & listen</div><h3>One media library.</h3><p>Streaming highlights, original songs, videos, and creative experiments together in one place.</p><a href="/media/">Explore media →</a></article><article class="card"><div class="eyebrow">Books & beyond</div><h3>A combined shop.</h3><p>Browse products, then choose a retailer to complete your purchase.</p><a href="/shop/">Browse the shop →</a></article></div></div></section>
+</BaseLayout>
+<style>
+.launch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,285px),1fr));gap:20px}.launch-card{padding:0;overflow:hidden}.launch-card>img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.launch-card .inner{padding:24px}.launch-card h3,.reading-card h3{margin:10px 0}.launch-card p,.reading-card p{color:var(--muted)}.launch-card a,.reading-card a{color:var(--copper)}.reading-card{display:flex;align-items:flex-start;gap:18px}.reading-card img{width:90px;max-width:32%;aspect-ratio:2/3;object-fit:cover;flex:0 0 auto}.book-author{font-size:.9rem}.section-heading p{color:var(--muted);margin:10px 0 0;max-width:600px}@media(max-width:560px){.reading-card{flex-direction:column}}
+</style>

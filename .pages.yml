@@ -275,3 +275,71 @@ content:
       - { name: modes, label: Play modes (optional, e.g. Single-player or Online Co-op), type: string, list: true }
       - { name: players, label: Player count (optional), type: string }
       - { name: review, label: My short review, type: text }
+
+  - name: siteText
+    label: Website Text
+    type: collection
+    path: src/content/site-text
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    fields:
+      - { name: heroEyebrow, label: Homepage small heading, type: string }
+      - { name: heroTitle, label: Homepage main headline, type: string }
+      - { name: heroDescription, label: Homepage welcome paragraph, type: text }
+      - { name: writingCardTitle, label: Writing card heading, type: string }
+      - { name: writingCardDescription, label: Writing card description, type: text }
+      - { name: streamingCardTitle, label: Streaming card heading, type: string }
+      - { name: streamingCardDescription, label: Streaming card description, type: text }
+      - { name: featureTitle, label: Featured fiction title, type: string }
+      - { name: featureDescription, label: Featured fiction description, type: text }
+      - { name: readingHeading, label: Homepage reading section heading, type: string }
+      - { name: readingIntro, label: Homepage reading section intro, type: text }
+      - { name: promotionsHeading, label: Promotions heading, type: string }
+      - { name: journalHeading, label: Journal heading, type: string }
+  - name: reading
+    label: Reading & Indie Authors
+    type: collection
+    path: src/content/reading
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, author, status, published]
+      primary: title
+    fields:
+      - { name: title, label: Book title, type: string, required: true }
+      - { name: author, label: Author, type: string, required: true }
+      - { name: cover, label: Cover image, type: image }
+      - { name: genre, label: Genre, type: string }
+      - name: status
+        label: Reading or spotlight status
+        type: select
+        options:
+          values: ['Want to Read', 'Currently Reading', 'Finished', 'Indie Author Spotlight']
+        default: Indie Author Spotlight
+      - { name: description, label: Description, type: text }
+      - { name: myThoughts, label: My thoughts (optional), type: text }
+      - { name: bookUrl, label: Buy or find book URL, type: string }
+      - { name: authorUrl, label: Author website URL, type: string }
+      - { name: featured, label: Feature on homepage, type: boolean, default: false, description: Featured entries appear before others. Up to three appear on homepage. }
+      - { name: displayOrder, label: Display order, type: number, default: 0 }
+      - { name: published, label: Show on website, type: boolean, default: false }
+  - name: promotions
+    label: Specials & Collaborations
+    type: collection
+    path: src/content/promotions
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, partner, active, startDate, endDate]
+      primary: title
+    fields:
+      - { name: title, label: Promotion title, type: string, required: true }
+      - { name: partner, label: Collaborating creator or business, type: string }
+      - { name: image, label: Promotional image, type: image }
+      - { name: description, label: Offer details and conditions, type: text }
+      - { name: linkText, label: Button text, type: string, default: See details }
+      - { name: url, label: Offer URL, type: string }
+      - { name: startDate, label: Start date (optional YYYY-MM-DD), type: string, description: Leave empty for no start date. }
+      - { name: endDate, label: End date (optional YYYY-MM-DD), type: string, description: Leave empty for no end date. }
+      - { name: displayOrder, label: Display order, type: number, default: 0 }
+      - { name: active, label: Promotion active, type: boolean, default: false, description: Disable to hide completely without deleting. Up to five active promotions appear on homepage. }
