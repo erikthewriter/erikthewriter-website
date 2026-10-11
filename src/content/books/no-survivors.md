@@ -12,7 +12,6 @@ editions:
     availability: Available
     retailers:
       - name: Amazon
-        url: https://www.erikthewriter.com
 featured: true
 published: true
 ---
