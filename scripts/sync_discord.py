@@ -108,6 +108,64 @@ def format_event(kind, doc):
                         'footer': {'text': f'Erik the Writer • {kind}'}}], 'allowed_mentions': {'parse': []}}
 
 
+
+def event_snapshot(kind, doc):
+    """Store only announcement fields; never store webhook URLs or secrets."""
+    event_date = doc.get('date')
+    if isinstance(event_date, (dt.date, dt.datetime)):
+        event_date = event_date.isoformat()[:10]
+    return {
+        'title': str(doc.get('title') or 'Untitled stream'),
+        'date': str(event_date or '') if kind == 'Special event' else '',
+        'day': str(doc.get('day') or '') if kind == 'Weekly stream' else '',
+        'time': format_time(doc.get('time')),
+        'timezone': str(doc.get('timezone') or 'America/Chicago'),
+        'game': str(doc.get('game') or ''),
+        'status': str(doc.get('status') or ''),
+        'description': str(doc.get('description') or ''),
+    }
+
+
+def describe_changes(old, new):
+    """Human-readable, stable field-by-field differences."""
+    labels = {
+        'title': 'Title', 'date': 'Date', 'day': 'Day',
+        'time': 'Start time', 'timezone': 'Time zone',
+        'game': 'Game', 'status': 'Status', 'description': 'Details',
+    }
+    changes = []
+    for field, label in labels.items():
+        before, after = str(old.get(field, '')), str(new.get(field, ''))
+        if before == after:
+            continue
+        if field == 'description':
+            changes.append('• **Details:** Description updated')
+        else:
+            changes.append(f'• **{label}:** {before or "Not set"} → {after or "Not set"}')
+    return changes
+
+
+def update_notice(doc, old, current, kind):
+    changes = describe_changes(old, current)
+    if not changes:
+        return None
+    title = current['title'][:150]
+    slug = doc.get('_slug', '')
+    url = (f'https://erikthewriter-website.pages.dev/streaming/events/{slug}/'
+           if kind == 'Special event' else 'https://erikthewriter-website.pages.dev/streaming/')
+    # Discord's content limit is 2000 characters; avoid truncating away the URL.
+    head = f'📅 **Schedule updated: {title}**\n'
+    tail = f'\n**Event details:** {url}'
+    lines = []
+    budget = 2000 - len(head) - len(tail)
+    for line in changes:
+        if len('\n'.join(lines + [line])) > budget:
+            lines.append('• Additional details changed; see the event page.')
+            break
+        lines.append(line)
+    return {'content': head + '\n'.join(lines) + tail,
+            'allowed_mentions': {'parse': []}}
+
 def main():
     state = json.loads(STATE_PATH.read_text(encoding='utf-8')) if STATE_PATH.exists() else {}
     dirty = False
@@ -124,6 +182,7 @@ def main():
             selected = [selected]
         payload = format_event(kind, doc)
         signature = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
+        snapshot = event_snapshot(kind, doc)
         for label in selected:
             if label not in DESTINATIONS:
                 print(f'Unrecognized destination label {label!r} on {key}; skipped')
@@ -136,7 +195,15 @@ def main():
             statekey = f'{key}::{ident}'
             record = state.get(statekey, {})
             if record.get('hash') == signature:
-                print(f'Unchanged: {statekey}')
+                if not isinstance(record.get('snapshot'), dict):
+                    record['snapshot'] = snapshot
+                    state[statekey] = record
+                    STATE_PATH.parent.mkdir(exist_ok=True)
+                    STATE_PATH.write_text(json.dumps(state, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+                    dirty = True
+                    print(f'Initialized change tracking: {statekey}')
+                else:
+                    print(f'Unchanged: {statekey}')
                 continue
             original_id = record.get('message_id')
             if original_id and mode != 'New announcement':
@@ -146,11 +213,12 @@ def main():
                 except RuntimeError as err:
                     # Do not send fresh posts on error; prevents accidental duplicates.
                     raise RuntimeError(f'Failed editing {statekey}: {err}') from err
-                if mode == 'Update and notify':
-                    request(f'{webhook}?wait=true', 'POST', {
-                        'content': f"📅 Schedule updated: **{str(doc.get('title', 'Stream'))[:150]}**",
-                        'allowed_mentions': {'parse': []}
-                    })
+                if mode == 'Update and notify' and isinstance(record.get('snapshot'), dict):
+                    notice = update_notice(doc, record['snapshot'], snapshot, kind)
+                    if notice:
+                        request(f'{webhook}?wait=true', 'POST', notice)
+                elif mode == 'Update and notify':
+                    print(f'No prior details for {statekey}; updated original without extra notification')
                 message_id = original_id
             else:
                 result = request(f'{webhook}?wait=true', 'POST', payload)
@@ -158,7 +226,7 @@ def main():
                 if not message_id:
                     raise RuntimeError(f'Discord returned no message ID for {statekey}')
                 print(f'Created: {statekey}')
-            state[statekey] = {'message_id': message_id, 'hash': signature}
+            state[statekey] = {'message_id': message_id, 'hash': signature, 'snapshot': snapshot}
             STATE_PATH.parent.mkdir(exist_ok=True)
             STATE_PATH.write_text(json.dumps(state, indent=2, sort_keys=True) + '\n', encoding='utf-8')
             dirty = True

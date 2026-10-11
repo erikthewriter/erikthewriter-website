@@ -6,6 +6,8 @@ on:
     paths:
       - 'src/content/weekly-streams/**'
       - 'src/content/stream-events/**'
+      - 'scripts/sync_discord.py'
+      - '.github/workflows/discord-schedule.yml'
 concurrency:
   group: discord-schedule
   cancel-in-progress: false
