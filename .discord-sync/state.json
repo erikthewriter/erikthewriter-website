@@ -1,6 +1,6 @@
 {
   "src/content/stream-events/pecial-community-horror-night.md::haunted-library": {
-    "hash": "39308084d392479fdad1bf08bf27664defcabe04a0f653d416d4cd55dabe7596",
+    "hash": "2ab8a0270f8e52f3fdbf7c214c374eae65ec76c4efe542fa35be334121cbc289",
     "message_id": "1558701099551166527",
     "snapshot": {
       "date": "2026-10-31",
@@ -8,7 +8,7 @@
       "description": "Community Night with Nurse",
       "game": "Goldeneye",
       "status": "Scheduled",
-      "time": "7:30 PM",
+      "time": "11:30 AM",
       "timezone": "America/Chicago",
       "title": "pecial Community Horror Night."
     }
