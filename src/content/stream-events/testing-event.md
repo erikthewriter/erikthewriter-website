@@ -1,7 +1,7 @@
 ---
 title: Testing Event
 date: 2026-10-20
-time: 19:30
+time: 21:00
 timezone: America/Chicago
 game: Game Testing
 status: Scheduled
