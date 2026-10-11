@@ -232,3 +232,46 @@ content:
         options:
           values: ['Quiet update', 'Update and notify', 'New announcement']
       - { name: body, label: Event details, type: rich-text }
+
+  - name: gameNotes
+    label: Personal game settings
+    type: collection
+    path: src/content/game-notes
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [appid, rating, playStatus, lookingForPlayers, streaming]
+      primary: appid
+    fields:
+      - { name: appid, label: Steam App ID (copy from library card), type: number, required: true, description: Save one entry per game. Keep the App ID unchanged. }
+      - { name: rating, label: My rating (0 to 10, quarter increments), type: number, description: Leave empty for unrated. Use 0, 0.25, 0.5, etc. }
+      - name: playStatus
+        label: Played status
+        type: select
+        options:
+          values: ['Never played','Played','Currently playing','Completed','Abandoned']
+        default: Never played
+      - { name: wantToPlay, label: Want to play, type: boolean, default: false }
+      - name: lookingForPlayers
+        label: Looking for players
+        type: select
+        options:
+          values: ['Actively looking','Open to requests','Not actively looking']
+        default: Not actively looking
+      - name: streaming
+        label: How often I stream this game
+        type: select
+        options:
+          values: ['Regularly','Occasionally','Not currently']
+        default: Not currently
+      - name: collabPreference
+        label: Personal preference (never blocks requests)
+        type: select
+        options:
+          values: ['On-stream','Off-stream','Both','No preference']
+        default: No preference
+      - { name: featured, label: Feature game, type: boolean, default: false }
+      - { name: genres, label: Genres (optional), type: string, list: true }
+      - { name: modes, label: Play modes (optional, e.g. Single-player or Online Co-op), type: string, list: true }
+      - { name: players, label: Player count (optional), type: string }
+      - { name: review, label: My short review, type: text }
