@@ -106,11 +106,38 @@ content:
       - { name: isbnPaperback, label: Paperback ISBN, type: string }
       - { name: isbnHardcover, label: Hardcover ISBN, type: string }
       - { name: isbnEbook, label: eBook ISBN, type: string }
-      - { name: amazonUrl, label: Amazon purchase URL, type: string }
-      - { name: payhipUrl, label: Payhip purchase URL, type: string }
+      - { name: amazonUrl, label: Legacy Amazon URL (optional), type: string }
+      - { name: payhipUrl, label: Legacy Payhip URL (optional), type: string }
       - { name: ingramUrl, label: Additional retailer URL (Ingram or other), type: string }
       - { name: otherLabel, label: Other seller label, type: string }
       - { name: otherUrl, label: Other seller URL, type: string }
+      - name: editions
+        label: Editions and purchase options
+        type: object
+        description: Add each format once, with its own price, ISBN, availability and retailer links. Keep empty until ready.
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{format} — {availability}"
+        fields:
+          - { name: format, label: Format (e.g. Paperback or Signed Hardcover), type: string, required: true }
+          - { name: price, label: Listed price (USD), type: number, description: Optional. Number only, without dollar sign. }
+          - { name: isbn, label: ISBN (if applicable), type: string }
+          - name: availability
+            label: Availability
+            type: select
+            options:
+              values: [Available, Preorder, Coming soon, Unavailable]
+          - name: retailers
+            label: Where to buy
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{name}"
+            fields:
+              - { name: name, label: Retailer name (Amazon / Payhip / etc.), type: string, required: true }
+              - { name: url, label: Direct purchase link, type: string, required: true }
       - { name: featured, label: Feature this book, type: boolean, default: false }
       - { name: published, label: Show on website, type: boolean, default: false }
       - { name: body, label: Full book description / excerpt, type: rich-text }
