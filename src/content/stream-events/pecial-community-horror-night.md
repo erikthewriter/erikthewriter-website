@@ -1,7 +1,7 @@
 ---
 title: pecial Community Horror Night.
 date: 2026-10-31
-time: 20:00
+time: 19:30
 timezone: America/Chicago
 game: Severance
 description: Community Night with Nurse
