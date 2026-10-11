@@ -6,5 +6,8 @@ timezone: America/Chicago
 game: Horror
 status: Scheduled
 published: true
-discordPublish: false
+discordPublish: true
+discordDestinations:
+  - The Haunted Library — Announcements
+discordUpdateMode: Quiet update
 ---
