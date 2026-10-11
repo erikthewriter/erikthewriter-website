@@ -1,6 +1,16 @@
 {
   "src/content/stream-events/pecial-community-horror-night.md::haunted-library": {
     "hash": "8932ca4b727ecc22b4457349535b92a744b07906a8ce03f92b8d40438f451244",
-    "message_id": "1558689830471208993"
+    "message_id": "1558689830471208993",
+    "snapshot": {
+      "date": "2026-10-31",
+      "day": "",
+      "description": "",
+      "game": "Horror",
+      "status": "Scheduled",
+      "time": "8:00 PM",
+      "timezone": "America/Chicago",
+      "title": "pecial Community Horror Night."
+    }
   }
 }
