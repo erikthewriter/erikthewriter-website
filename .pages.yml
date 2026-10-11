@@ -137,7 +137,7 @@ content:
                 summary: "{name}"
             fields:
               - { name: name, label: Retailer name (Amazon / Payhip / etc.), type: string, required: true }
-              - { name: url, label: Direct purchase link, type: string, required: true }
+              - { name: url, label: Direct purchase link (optional), type: string, required: false }
       - { name: featured, label: Feature this book, type: boolean, default: false }
       - { name: published, label: Show on website, type: boolean, default: false }
       - { name: body, label: Full book description / excerpt, type: rich-text }
