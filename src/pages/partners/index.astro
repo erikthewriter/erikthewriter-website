@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+const partners=(await getCollection('partners',({data})=>data.active)).sort((a,b)=>a.data.displayOrder-b.data.displayOrder || a.data.name.localeCompare(b.data.name));
+---
+<BaseLayout title="Friends of The Library">
+  <section class="section"><div class="wrap">
+    <div class="eyebrow">Friends of The Library</div>
+    <h1>Sponsors & Featured Businesses</h1>
+    <p class="lead">The businesses, creators, sponsors, and community partners we are pleased to spotlight.</p>
+    {partners.length > 0 ? <div class="partners-grid">{partners.map(partner=><article class="card partner-card">
+      {partner.data.logo && <img class="partner-logo" src={partner.data.logo} alt={`Logo of ${partner.data.name}`} loading="lazy"/>}
+      <span class="tag">{partner.data.category}</span><h2>{partner.data.name}</h2>
+      {partner.data.description && <p>{partner.data.description}</p>}
+      {partner.data.relationship !== 'None' && <p class="disclosure">{partner.data.relationship}</p>}
+      {partner.data.websiteUrl && <a href={partner.data.websiteUrl} target="_blank" rel="noopener noreferrer">Visit website ↗</a>}
+    </article>)}</div> : <p class="empty">There are no featured businesses listed at the moment.</p>}
+  </div></section>
+</BaseLayout>
+<style>
+.partners-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:22px;margin-top:35px}
+.partner-card .partner-logo{display:block;width:100%;height:132px;object-fit:contain;aspect-ratio:auto;background:#191b1d;padding:18px;margin-bottom:20px}
+.partner-card h2{font-size:1.45rem;margin:8px 0 12px}.partner-card p{margin:0 0 16px}.partner-card a{color:var(--copper)}.partner-card .disclosure{color:var(--gold);font-size:.8rem}
+</style>

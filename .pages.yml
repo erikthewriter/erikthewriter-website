@@ -343,3 +343,33 @@ content:
       - { name: endDate, label: End date (optional YYYY-MM-DD), type: string, description: Leave empty for no end date. }
       - { name: displayOrder, label: Display order, type: number, default: 0 }
       - { name: active, label: Promotion active, type: boolean, default: false, description: Disable to hide completely without deleting. Up to five active promotions appear on homepage. }
+
+  - name: partners
+    label: Sponsors & Featured Businesses
+    type: collection
+    path: src/content/partners
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [name, category, active, featured, displayOrder]
+      primary: name
+    fields:
+      - { name: name, label: Business or sponsor name, type: string, required: true }
+      - { name: logo, label: Logo or image, type: image }
+      - name: category
+        label: Partner category
+        type: select
+        options:
+          values: ['Sponsor', 'Featured Business', 'Community Partner', 'Affiliate']
+        default: Featured Business
+      - { name: description, label: About this business, type: text }
+      - { name: websiteUrl, label: Business website URL (optional), type: string }
+      - name: relationship
+        label: Relationship disclosure
+        type: select
+        options:
+          values: ['None', 'Paid sponsorship', 'Affiliate relationship', 'Gifted products or services', 'Independent recommendation', 'Community collaboration']
+        default: None
+      - { name: featured, label: Feature on homepage, type: boolean, default: false, description: Show on homepage when active. The homepage displays up to five featured partners. }
+      - { name: displayOrder, label: Display order, type: number, default: 0 }
+      - { name: active, label: Show on website, type: boolean, default: false, description: Leave on indefinitely; disable manually to hide without deleting. No automatic expiration. }

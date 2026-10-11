@@ -13,6 +13,7 @@ const t = {
 };
 const recent = (await getCollection('journal', ({data}) => data.published)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf()).slice(0,3);
 const readings = (await getCollection('reading', ({data}) => data.published)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||a.data.displayOrder-b.data.displayOrder||a.data.title.localeCompare(b.data.title)).slice(0,3);
+const featuredPartners = (await getCollection('partners', ({data}) => data.active && data.featured)).sort((a,b)=>a.data.displayOrder-b.data.displayOrder || a.data.name.localeCompare(b.data.name)).slice(0,5);
 const today = new Date().toISOString().slice(0,10);
 const promotions = (await getCollection('promotions', ({data}) => data.active && (!data.startDate || data.startDate <= today) && (!data.endDate || data.endDate >= today))).sort((a,b)=>a.data.displayOrder-b.data.displayOrder||a.data.title.localeCompare(b.data.title)).slice(0,5);
 ---
@@ -41,6 +42,15 @@ const promotions = (await getCollection('promotions', ({data}) => data.active &&
       {book.data.bookUrl && <a href={book.data.bookUrl} target="_blank" rel="noopener noreferrer">Find the book ↗</a>}</div>
     </article>)}</div>
   </div></section>}
+  {featuredPartners.length > 0 && <section class="section alt" aria-labelledby="partners-heading"><div class="wrap">
+    <div class="section-heading"><div><div class="eyebrow">Friends of The Library</div><h2 id="partners-heading">Sponsors & Featured Businesses</h2><p>Meet the independent businesses, supporters, and community partners we spotlight.</p></div><a href="/partners/">View all partners →</a></div>
+    <div class="launch-grid">{featuredPartners.map(partner=><article class="card partner-card">
+      {partner.data.logo && <img class="partner-logo" src={partner.data.logo} alt={`Logo of ${partner.data.name}`} loading="lazy"/>}
+      <span class="tag">{partner.data.category}</span><h3>{partner.data.name}</h3><p>{partner.data.description}</p>
+      {partner.data.relationship !== 'None' && <p class="partner-disclosure">{partner.data.relationship}</p>}
+      {partner.data.websiteUrl && <a href={partner.data.websiteUrl} target="_blank" rel="noopener noreferrer">Visit website ↗</a>}
+    </article>)}</div>
+  </div></section>}
   <section class="section alt"><div class="wrap"><div class="section-heading"><div><div class="eyebrow">From the journal</div><h2>{t.journalHeading}</h2></div><a href="/journal/">All entries →</a></div>
     {recent.length ? <div class="grid">{recent.map(post=><article class="card"><span class="tag">{post.data.category} · {post.data.date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span><h3>{post.data.title}</h3><p>{post.data.description}</p><a href={`/journal/${post.id}/`}>Read entry →</a></article>)}</div> : <p class="empty">Journal posts will appear here after you publish them through the editor.</p>}
   </div></section>
@@ -48,4 +58,5 @@ const promotions = (await getCollection('promotions', ({data}) => data.active &&
 </BaseLayout>
 <style>
 .launch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,285px),1fr));gap:20px}.launch-card{padding:0;overflow:hidden}.launch-card>img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.launch-card .inner{padding:24px}.launch-card h3,.reading-card h3{margin:10px 0}.launch-card p,.reading-card p{color:var(--muted)}.launch-card a,.reading-card a{color:var(--copper)}.reading-card{display:flex;align-items:flex-start;gap:18px}.reading-card img{width:90px;max-width:32%;aspect-ratio:2/3;object-fit:cover;flex:0 0 auto}.book-author{font-size:.9rem}.section-heading p{color:var(--muted);margin:10px 0 0;max-width:600px}@media(max-width:560px){.reading-card{flex-direction:column}}
+.partner-card .partner-logo{width:100%;height:100px;object-fit:contain;aspect-ratio:auto;background:#191b1d;padding:12px;margin-bottom:18px}.partner-card h3{margin:9px 0}.partner-disclosure{font-size:.78rem;color:var(--gold)!important}
 </style>
