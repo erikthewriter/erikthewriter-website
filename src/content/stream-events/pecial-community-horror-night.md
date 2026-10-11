@@ -12,3 +12,5 @@ discordDestinations:
   - The Haunted Library — Announcements
 discordUpdateMode: Update and notify
 ---
+> Judge, jury, executioner!
+
