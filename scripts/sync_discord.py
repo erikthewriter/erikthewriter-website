@@ -56,16 +56,44 @@ def entries():
             yield str(file.relative_to(ROOT)).replace('\\', '/'), label, doc
 
 
+def format_time(value):
+    """Format Pages CMS time (minutes since midnight) or HH:MM as 12-hour time."""
+    if value is None or value == '':
+        return 'TBA'
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        minutes = int(value)
+        if minutes != value or not 0 <= minutes < 1440:
+            return 'TBA'
+        hour, minute = divmod(minutes, 60)
+    elif isinstance(value, str):
+        raw = value.strip()
+        if raw.isdigit():
+            return format_time(int(raw))
+        parts = raw.split(':')
+        if len(parts) != 2 or not all(part.isdigit() for part in parts):
+            return raw or 'TBA'
+        hour, minute = int(parts[0]), int(parts[1])
+        if not (0 <= hour < 24 and 0 <= minute < 60):
+            return 'TBA'
+    elif isinstance(value, dt.time):
+        hour, minute = value.hour, value.minute
+    else:
+        return 'TBA'
+    suffix = 'AM' if hour < 12 else 'PM'
+    hour12 = hour % 12 or 12
+    return f'{hour12}:{minute:02d} {suffix}'
+
+
 def format_event(kind, doc):
     lines = []
     title = str(doc.get('title') or 'Untitled stream')
     if kind == 'Weekly stream':
-        lines.append(f"**Every {doc.get('day', 'TBA')} at {doc.get('time', 'TBA')}** ({doc.get('timezone', 'America/Chicago')})")
+        lines.append(f"**Every {doc.get('day', 'TBA')} at {format_time(doc.get('time'))}** ({doc.get('timezone', 'America/Chicago')})")
     else:
         date = doc.get('date', 'TBA')
         if isinstance(date, (dt.date, dt.datetime)):
             date = date.isoformat()[:10]
-        lines.append(f"**{date} at {doc.get('time', 'TBA')}** ({doc.get('timezone', 'America/Chicago')})")
+        lines.append(f"**{date} at {format_time(doc.get('time'))}** ({doc.get('timezone', 'America/Chicago')})")
     if doc.get('game'):
         lines.append(f"**Game:** {doc['game']}")
     if doc.get('status'):
