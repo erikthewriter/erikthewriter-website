@@ -14,29 +14,29 @@
     }
   },
   "src/content/stream-events/testing-event.md::haunted-library": {
-    "hash": "b2feea59fd5433ac230599cc112a6da8c633c5364cdd26bac36d7c0e5a3cb7d0",
+    "hash": "4daaa9a54fa5b8afe9da43b83e9005962c744aad08bef19c3f6ebbcba3eacdbb",
     "message_id": "1558708115447218209",
     "snapshot": {
       "date": "2026-10-20",
       "day": "",
       "description": "",
-      "game": "Game Testing",
+      "game": "Severance Beta Testing",
       "status": "Scheduled",
-      "time": "8:00 PM",
+      "time": "5:00 PM",
       "timezone": "America/Chicago",
       "title": "Testing Event"
     }
   },
   "src/content/stream-events/testing-event.md::magnificent-bastages": {
-    "hash": "b2feea59fd5433ac230599cc112a6da8c633c5364cdd26bac36d7c0e5a3cb7d0",
+    "hash": "4daaa9a54fa5b8afe9da43b83e9005962c744aad08bef19c3f6ebbcba3eacdbb",
     "message_id": "1558708114629337131",
     "snapshot": {
       "date": "2026-10-20",
       "day": "",
       "description": "",
-      "game": "Game Testing",
+      "game": "Severance Beta Testing",
       "status": "Scheduled",
-      "time": "8:00 PM",
+      "time": "5:00 PM",
       "timezone": "America/Chicago",
       "title": "Testing Event"
     }
