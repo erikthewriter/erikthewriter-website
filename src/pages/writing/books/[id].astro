@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {getCollection,render} from 'astro:content';
+export async function getStaticPaths(){return (await getCollection('books',({data})=>data.published)).map(book=>({params:{id:book.id},props:{book}}));}
+const {book}=Astro.props;
+const {Content}=await render(book);
+const allSeries=await getCollection('series',({data})=>data.published);
+const parent=allSeries.find(item=>item.id===book.data.series);
+const links=[{label:'Amazon',url:book.data.amazonUrl},{label:'Payhip',url:book.data.payhipUrl},{label:'Additional retailer',url:book.data.ingramUrl},{label:book.data.otherLabel||'Other retailer',url:book.data.otherUrl}].filter(x=>/^https?:\/\//i.test(x.url));
+---
+<BaseLayout title={book.data.title} description={book.data.description}><section class="section"><div class="wrap"><a href="/writing/" style="color:var(--copper)">← All books</a><div class="book-hero"><div>{book.data.cover?<img class="cover" src={book.data.cover} alt={`Cover of ${book.data.title}`}/>:<div class="cover-placeholder">Cover artwork coming soon</div>}</div><div><div class="eyebrow">{book.data.status}{book.data.seriesNumber?` · Book ${book.data.seriesNumber}`:''}</div><h1>{book.data.title}</h1>{book.data.subtitle&&<h3>{book.data.subtitle}</h3>}<p class="lead">{book.data.description}</p>{parent&&<p>Part of <a href={`/writing/series/${parent.id}/`} style="color:var(--copper)">{parent.data.title}</a></p>}{book.data.releaseDate&&<p>Release: {book.data.releaseDate.toLocaleDateString('en-US',{dateStyle:'long'})}</p>}{links.length>0&&<><h3>Purchase from</h3><div class="product-links">{links.map(link=><a class="pill" href={link.url} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</div></>}</div></div><article class="prose"><Content/></article><p style="color:var(--muted)">Purchases take place on external retailer websites.</p></div></section></BaseLayout>
+<style>.book-hero{display:grid;grid-template-columns:minmax(170px,300px) 1fr;gap:40px;align-items:start;margin:30px 0 60px}.cover{width:100%;height:auto;border-radius:5px}.cover-placeholder{aspect-ratio:2/3;background:var(--panel);border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);padding:25px;text-align:center}@media(max-width:650px){.book-hero{grid-template-columns:1fr}.book-hero>div:first-child{max-width:260px}}</style>

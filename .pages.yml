@@ -60,3 +60,57 @@ content:
       - { name: image, label: Thumbnail, type: image }
       - { name: url, label: Watch or listen URL, type: string }
       - { name: published, label: Show on website, type: boolean, default: false }
+  - name: series
+    label: Book series
+    type: collection
+    path: src/content/series
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, status, published]
+      primary: title
+    fields:
+      - { name: title, label: Series name, type: string, required: true }
+      - { name: description, label: Short introduction, type: text }
+      - { name: image, label: Series artwork, type: image }
+      - name: status
+        label: Series status
+        type: select
+        options:
+          values: [Planned, In progress, Ongoing, Complete]
+      - { name: order, label: Display order (number), type: number, default: 0 }
+      - { name: published, label: Show on website, type: boolean, default: false }
+      - { name: body, label: Series overview, type: rich-text }
+  - name: books
+    label: Books
+    type: collection
+    path: src/content/books
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, status, series, published]
+      primary: title
+    fields:
+      - { name: title, label: Book title, type: string, required: true }
+      - { name: subtitle, label: Subtitle, type: string }
+      - { name: description, label: Short summary, type: text }
+      - { name: series, label: Series ID (example day-of-the-end), type: string, description: Use the series entry filename without .md. Leave blank for standalones. }
+      - { name: seriesNumber, label: Book number in series, type: number }
+      - { name: cover, label: Book cover, type: image }
+      - name: status
+        label: Publication status
+        type: select
+        options:
+          values: [Planned, Writing, Editing, Coming soon, Available]
+      - { name: releaseDate, label: Release date (optional), type: date }
+      - { name: isbnPaperback, label: Paperback ISBN, type: string }
+      - { name: isbnHardcover, label: Hardcover ISBN, type: string }
+      - { name: isbnEbook, label: eBook ISBN, type: string }
+      - { name: amazonUrl, label: Amazon purchase URL, type: string }
+      - { name: payhipUrl, label: Payhip purchase URL, type: string }
+      - { name: ingramUrl, label: Additional retailer URL (Ingram or other), type: string }
+      - { name: otherLabel, label: Other seller label, type: string }
+      - { name: otherUrl, label: Other seller URL, type: string }
+      - { name: featured, label: Feature this book, type: boolean, default: false }
+      - { name: published, label: Show on website, type: boolean, default: false }
+      - { name: body, label: Full book description / excerpt, type: rich-text }

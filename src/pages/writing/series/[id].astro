@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {getCollection,render} from 'astro:content';
+export async function getStaticPaths(){return (await getCollection('series',({data})=>data.published)).map(series=>({params:{id:series.id},props:{series}}));}
+const {series}=Astro.props;
+const {Content}=await render(series);
+const books=(await getCollection('books',({data})=>data.published&&data.series===series.id)).sort((a,b)=>(a.data.seriesNumber??999)-(b.data.seriesNumber??999));
+---
+<BaseLayout title={series.data.title} description={series.data.description}><section class="hero"><div class="wrap"><a href="/writing/" style="color:var(--copper)">← Writing</a><div class="eyebrow">Book series · {series.data.status}</div><h1>{series.data.title}</h1><p class="lead">{series.data.description}</p></div></section><section class="section"><div class="wrap">{series.data.image&&<img src={series.data.image} alt="" style="max-width:100%;max-height:360px;object-fit:cover;border-radius:5px"/>}<article class="prose"><Content/></article><h2>Books in this series</h2>{books.length?<div class="grid">{books.map(book=><div class="card">{book.data.cover&&<img src={book.data.cover} alt={`Cover of ${book.data.title}`} loading="lazy"/>}<div class="eyebrow">{book.data.seriesNumber?`Book ${book.data.seriesNumber} · `:''}{book.data.status}</div><h3>{book.data.title}</h3><p>{book.data.description}</p><a href={`/writing/books/${book.id}/`}>View book →</a></div>)}</div>:<div class="empty">Book details are being prepared.</div>}</div></section></BaseLayout>
