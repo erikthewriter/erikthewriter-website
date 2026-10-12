@@ -69,6 +69,34 @@
       "title": "Testing Event"
     }
   },
+  "src/content/weekly-streams/frights-after-lights.md::haunted-library": {
+    "hash": "c08f3eca01fba5dd1a3efbeaa8d72b0eb87423e98df24e4c267062843368520d",
+    "message_id": "1559041909064863876",
+    "snapshot": {
+      "date": "",
+      "day": "Wednesday",
+      "description": "",
+      "game": "The Squad tackles the horror games so you don't have to!",
+      "status": "Scheduled",
+      "time": "10:00 PM",
+      "timezone": "America/Chicago",
+      "title": "Frights after Lights"
+    }
+  },
+  "src/content/weekly-streams/frights-after-lights.md::magnificent-bastages": {
+    "hash": "c08f3eca01fba5dd1a3efbeaa8d72b0eb87423e98df24e4c267062843368520d",
+    "message_id": "1559041909761114164",
+    "snapshot": {
+      "date": "",
+      "day": "Wednesday",
+      "description": "",
+      "game": "The Squad tackles the horror games so you don't have to!",
+      "status": "Scheduled",
+      "time": "10:00 PM",
+      "timezone": "America/Chicago",
+      "title": "Frights after Lights"
+    }
+  },
   "src/content/weekly-streams/thriller-thursdays.md::haunted-library": {
     "hash": "020983fa74a1860bf758f608cf8c0ec67a3db3536318a35650dfeee1f1ac6f42",
     "message_id": "1559041456872628245",
