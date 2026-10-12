@@ -7,6 +7,7 @@ seriesNumber: 1
 status: Coming soon
 releaseDate: 2026-01-03
 isbnPaperback: ‎ 979-8994275818
+isbnHardcover: " 979-8994275801"
 editions:
   - format: Paperback
     price: 14.99
@@ -24,6 +25,19 @@ editions:
     retailers:
       - name: Payhip
         url: https://payhip.com/b/8J7T1
+  - format: Hardcover — Available
+    price: 24.99
+    isbn: " 979-8994275801"
+    availability: Available
+    retailers:
+      - name: Amazon
+        url: https://www.amazon.com/dp/B0GCW5MJLH
+  - format: E-Book
+    price: 5.99
+    availability: Available
+    retailers:
+      - name: Amazon
+        url: https://www.amazon.com/dp/B0GCW6C7FL
 featured: true
 published: true
 ---
