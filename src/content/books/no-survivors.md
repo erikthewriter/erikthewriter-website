@@ -4,7 +4,7 @@ subtitle: Day of the End — Book One
 description: The opening novel in the Day of the End survival-horror series.
 series: day-of-the-end
 seriesNumber: 1
-status: Coming soon
+status: Available
 releaseDate: 2026-01-03
 isbnPaperback: ‎ 979-8994275818
 isbnHardcover: " 979-8994275801"
