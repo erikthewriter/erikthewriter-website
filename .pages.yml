@@ -373,3 +373,22 @@ content:
       - { name: featured, label: Feature on homepage, type: boolean, default: false, description: Show on homepage when active. The homepage displays up to five featured partners. }
       - { name: displayOrder, label: Display order, type: number, default: 0 }
       - { name: active, label: Show on website, type: boolean, default: false, description: Leave on indefinitely; disable manually to hide without deleting. No automatic expiration. }
+
+  - name: socialLinks
+    label: Social & Community Links
+    type: collection
+    path: src/content/social-links
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    fields:
+      - { name: twitch, label: Twitch URL, type: string, description: Leave blank to hide a social link. Use a full https:// URL. }
+      - { name: discord, label: Discord invite URL, type: string }
+      - { name: youtube, label: YouTube URL, type: string }
+      - { name: steam, label: Steam profile URL, type: string }
+      - { name: instagram, label: Instagram URL, type: string }
+      - { name: facebook, label: Facebook URL, type: string }
+      - { name: tiktok, label: TikTok URL, type: string }
+      - { name: bluesky, label: Bluesky URL, type: string }
+      - { name: x, label: X (Twitter) URL, type: string }
+      - { name: goodreads, label: Goodreads URL, type: string }
+      - { name: other, label: Other website URL, type: string }
