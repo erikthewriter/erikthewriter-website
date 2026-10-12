@@ -1,13 +1,5 @@
 ---
 twitch: https://www.twitch.tv/erikthewriter
-discord: ""
-youtube: ""
-steam: ""
-instagram: ""
-facebook: ""
-tiktok: ""
-bluesky: ""
-x: ""
-goodreads: ""
-other: ""
+steam: https://steamcommunity.com/profiles/76561198263149204/
+instagram: https://www.instagram.com/erikthewriter/
 ---
