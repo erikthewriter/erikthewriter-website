@@ -102,7 +102,7 @@ content:
         type: select
         options:
           values: [Planned, Writing, Editing, Coming soon, Available]
-      - { name: releaseDate, label: Release date (optional), type: date }
+      - { name: releaseDate, label: Release date (optional), type: date, default: "" }
       - { name: isbnPaperback, label: Paperback ISBN, type: string }
       - { name: isbnHardcover, label: Hardcover ISBN, type: string }
       - { name: isbnEbook, label: eBook ISBN, type: string }
