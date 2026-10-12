@@ -69,6 +69,34 @@
       "title": "Testing Event"
     }
   },
+  "src/content/weekly-streams/thriller-thursdays.md::haunted-library": {
+    "hash": "020983fa74a1860bf758f608cf8c0ec67a3db3536318a35650dfeee1f1ac6f42",
+    "message_id": "1559041456872628245",
+    "snapshot": {
+      "date": "",
+      "day": "Thursday",
+      "description": "Joining forces with @Green_Demon_TV, @The_Midnight_Menace, and @TheRavenQueen8585 and running a selection of fun, fresh, and sometimes brand new horror games!",
+      "game": "Horror",
+      "status": "Scheduled",
+      "time": "7:30 PM",
+      "timezone": "America/Chicago",
+      "title": "Thriller Thursdays!"
+    }
+  },
+  "src/content/weekly-streams/thriller-thursdays.md::magnificent-bastages": {
+    "hash": "020983fa74a1860bf758f608cf8c0ec67a3db3536318a35650dfeee1f1ac6f42",
+    "message_id": "1559041457652768782",
+    "snapshot": {
+      "date": "",
+      "day": "Thursday",
+      "description": "Joining forces with @Green_Demon_TV, @The_Midnight_Menace, and @TheRavenQueen8585 and running a selection of fun, fresh, and sometimes brand new horror games!",
+      "game": "Horror",
+      "status": "Scheduled",
+      "time": "7:30 PM",
+      "timezone": "America/Chicago",
+      "title": "Thriller Thursdays!"
+    }
+  },
   "src/content/weekly-streams/weekly-horror-kickoff.md::haunted-library": {
     "hash": "f72cfdb90530d6f96e89ee5e2a1729ea9fa525e558141121edfdc1927bb64daf",
     "message_id": "1559040810119467009",
