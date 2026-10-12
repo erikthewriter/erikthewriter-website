@@ -69,6 +69,34 @@
       "title": "Testing Event"
     }
   },
+  "src/content/weekly-streams/friday-night-severance-night.md::haunted-library": {
+    "hash": "fe19e77579236c6580070a8502ac4a1f82f9edee3e85751e08f3cd745707721a",
+    "message_id": "1559042119497424977",
+    "snapshot": {
+      "date": "",
+      "day": "Friday",
+      "description": "",
+      "game": "Community Severance Night",
+      "status": "Scheduled",
+      "time": "7:30 PM",
+      "timezone": "America/Chicago",
+      "title": "Friday Night Severance Night"
+    }
+  },
+  "src/content/weekly-streams/friday-night-severance-night.md::magnificent-bastages": {
+    "hash": "fe19e77579236c6580070a8502ac4a1f82f9edee3e85751e08f3cd745707721a",
+    "message_id": "1559042120243871777",
+    "snapshot": {
+      "date": "",
+      "day": "Friday",
+      "description": "",
+      "game": "Community Severance Night",
+      "status": "Scheduled",
+      "time": "7:30 PM",
+      "timezone": "America/Chicago",
+      "title": "Friday Night Severance Night"
+    }
+  },
   "src/content/weekly-streams/frights-after-lights.md::haunted-library": {
     "hash": "c08f3eca01fba5dd1a3efbeaa8d72b0eb87423e98df24e4c267062843368520d",
     "message_id": "1559041909064863876",
