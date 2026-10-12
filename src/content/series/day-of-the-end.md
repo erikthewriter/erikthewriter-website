@@ -2,8 +2,10 @@
 title: Day of the End
 description: A post-apocalyptic survival horror series with an unsettling
   supernatural undercurrent.
-status: In progress
+status: Ongoing
 order: 1
 published: true
 ---
-Add the official series introduction and reading order here.
+Book 1 — No Survivors
+
+Book 2 — The Quiet Feasts
