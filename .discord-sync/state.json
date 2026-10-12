@@ -68,5 +68,33 @@
       "timezone": "America/Chicago",
       "title": "Testing Event"
     }
+  },
+  "src/content/weekly-streams/weekly-horror-kickoff.md::haunted-library": {
+    "hash": "f72cfdb90530d6f96e89ee5e2a1729ea9fa525e558141121edfdc1927bb64daf",
+    "message_id": "1559040810119467009",
+    "snapshot": {
+      "date": "",
+      "day": "Tuesday",
+      "description": "Horror games, Severance Community Night, all around fun!",
+      "game": "Horror",
+      "status": "Scheduled",
+      "time": "7:30 PM",
+      "timezone": "America/Chicago",
+      "title": "Weekly Horror Kickoff!"
+    }
+  },
+  "src/content/weekly-streams/weekly-horror-kickoff.md::magnificent-bastages": {
+    "hash": "f72cfdb90530d6f96e89ee5e2a1729ea9fa525e558141121edfdc1927bb64daf",
+    "message_id": "1559040810857664533",
+    "snapshot": {
+      "date": "",
+      "day": "Tuesday",
+      "description": "Horror games, Severance Community Night, all around fun!",
+      "game": "Horror",
+      "status": "Scheduled",
+      "time": "7:30 PM",
+      "timezone": "America/Chicago",
+      "title": "Weekly Horror Kickoff!"
+    }
   }
 }
