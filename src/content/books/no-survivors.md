@@ -25,7 +25,7 @@ editions:
     retailers:
       - name: Payhip
         url: https://payhip.com/b/8J7T1
-  - format: Hardcover — Available
+  - format: Hardcover
     price: 24.99
     isbn: " 979-8994275801"
     availability: Available
