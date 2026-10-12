@@ -394,3 +394,22 @@ content:
       - { name: featured, label: Feature on Writing page, type: boolean, default: false }
       - { name: displayOrder, label: Display order (lower first), type: number, default: 0 }
       - { name: published, label: Show on website, type: boolean, default: false }
+
+  - name: socialLinks
+    label: Social & Community Links
+    type: collection
+    path: src/content/social-links
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    fields:
+      - { name: twitch, label: Twitch URL, type: string, description: Leave blank to hide a social link. Use a full https:// URL. }
+      - { name: discord, label: Discord invite URL, type: string }
+      - { name: youtube, label: YouTube URL, type: string }
+      - { name: steam, label: Steam profile URL, type: string }
+      - { name: instagram, label: Instagram URL, type: string }
+      - { name: facebook, label: Facebook URL, type: string }
+      - { name: tiktok, label: TikTok URL, type: string }
+      - { name: bluesky, label: Bluesky URL, type: string }
+      - { name: x, label: X (Twitter) URL, type: string }
+      - { name: goodreads, label: Goodreads URL, type: string }
+      - { name: other, label: Other website URL, type: string }
