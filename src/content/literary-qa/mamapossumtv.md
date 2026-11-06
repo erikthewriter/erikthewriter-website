@@ -6,7 +6,7 @@ category: Literary Q&A
 tags:
   - Publishing
 spoilers: false
-featured: false
+featured: true
 displayOrder: 0
-published: false
+published: true
 ---
