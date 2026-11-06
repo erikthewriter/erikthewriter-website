@@ -1,5 +1,5 @@
 ---
-title: MamaPossumTV
+title: Question about Publishing
 twitchUrl: https://www.twitch.tv/videos/2920387292
 askedBy: MamaPossumTV
 category: Literary Q&A
