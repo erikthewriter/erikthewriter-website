@@ -1,7 +1,7 @@
 ---
 title: Jeremy asks us about Characters
 twitchUrl: https://www.twitch.tv/videos/2898502928
-askedBy: Jeremy
+askedBy: Jeremy-
 category: Literary Q&A, Characters
 tags:
   - Characters
